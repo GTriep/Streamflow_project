@@ -10,10 +10,13 @@ Created on Thu Apr 30 11:45:48 2026
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+
 from src.analysis import load_streamflow
 from src.analysis import basin_stats
 from src.analysis import classify_year
 from src.analysis import anomaly_timeseries
+from src.visualise import plot_timeseries
+from src.visualise import plot_all_basins
 
 df = load_streamflow("/Users/triep/Downloads/UU AW/Jaar 3/Modelleren van Aardsystemen/intro exercises/streamflow_project/data/AnnualStreamflow.csv")
 
@@ -49,7 +52,10 @@ years = df["Year"].values
 flows = df[col].values
 labels = [classify_year(f,mean,std) for f in flows]
 for yr, lab in zip (years, labels):
-    print (f"{yr}:{lab}")                     
+    print (f"{yr}:{lab}")  
+
+
+plot_all_basins(df, basin_info)                
 
 
 
