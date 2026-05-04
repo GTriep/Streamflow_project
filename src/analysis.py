@@ -50,7 +50,3 @@ def anomaly_timeseries(df, column):
 
     
 
-df = load_streamflow("/Users/triep/Downloads/UU AW/Jaar 3/Modelleren van Aardsystemen/intro exercises/streamflow_project/data/AnnualStreamflow.csv")
- 
-stats = basin_stats(df, "Upper_Colorado_Basin")
-print(stats)

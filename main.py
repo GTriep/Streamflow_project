@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from src.analysis import load_streamflow
 from src.analysis import basin_stats
+from src.analysis import classify_year
+from src.analysis import anomaly_timeseries
 
 df = load_streamflow("/Users/triep/Downloads/UU AW/Jaar 3/Modelleren van Aardsystemen/intro exercises/streamflow_project/data/AnnualStreamflow.csv")
-
-
 
 basin_info ={
     "Upper_Colorado_Basin" : {
@@ -35,7 +35,6 @@ basin_info ={
         "units" : "MAF/yr"},
 }
 
-
 for basin in basin_info:
     stats = basin_stats(df, basin)
     basin_info[basin].update(stats)
@@ -43,8 +42,14 @@ for basin in basin_info:
 print (basin_info)
 
 
-
-                        
+col = "Gunnison_Basin"
+mean = basin_info[col]["mean"]
+std = basin_info[col]["std"]
+years = df["Year"].values
+flows = df[col].values
+labels = [classify_year(f,mean,std) for f in flows]
+for yr, lab in zip (years, labels):
+    print (f"{yr}:{lab}")                     
 
 
 
