@@ -15,8 +15,11 @@ from src.analysis import load_streamflow
 from src.analysis import basin_stats
 from src.analysis import classify_year
 from src.analysis import anomaly_timeseries
+from src.analysis import reservoir_simulation
+
 from src.visualise import plot_timeseries
 from src.visualise import plot_all_basins
+from src.visualise import plot_reservoir
 
 df = load_streamflow("/Users/triep/Downloads/UU AW/Jaar 3/Modelleren van Aardsystemen/intro exercises/streamflow_project/data/AnnualStreamflow.csv")
 
@@ -55,7 +58,15 @@ for yr, lab in zip (years, labels):
     print (f"{yr}:{lab}")  
 
 
-plot_all_basins(df, basin_info)                
+plot_all_basins(df, basin_info)     
+
+result = reservoir_simulation(df["Gunnison_Basin"].to_numpy(), 5*10**6, 2.5*10**6 , 2*10**6)
+storage = result["storage"]
+years = df["Year"].values
+
+fig, ax = plt.subplots()
+plot_reservoir(ax, years, storage, capacity=5*10**6)
+          
 
 
 

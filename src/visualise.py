@@ -23,6 +23,7 @@ def plot_timeseries(ax, years, flow, anomaly, basin_name):
     ax.set_title(f"{basin_name} - Streamflow and Anomalies")
     ax.legend()
 
+
 def plot_all_basins(df, basin_info):
     n_basins = len(basin_info)
     fig, axes = plt.subplots (nrows = n_basins, ncols= 1, figsize = (10, 3*n_basins), sharex=True)
@@ -43,8 +44,30 @@ def plot_all_basins(df, basin_info):
     plt.savefig("streamflow_timeseries.png", dpi=150)
     plt.show()
     
+
+def plot_reservoir(ax, years, storage, capacity):
+    """ Plot reservoir storage over time."""
+  
+    ax.fill_between(years, storage, color="steelblue", alpha=0.6, label="Storage")
+
+    ax.axhline(capacity, linestyle="--", color="black", label="Capacity")
+
+    ax.fill_between(years, 0, storage,
+                    where=(storage == 0),
+                    color="red",
+                    alpha=0.3,
+                    label="Deficit years")
+
+    # --- labels
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Storage (MAF)")
+    ax.legend()
     
- 
+    plt.tight_layout()
+    plt.savefig("reservoir_simulation.png", dpi=150)
+    plt.show()
+
+
     
 
     

@@ -48,5 +48,52 @@ def anomaly_timeseries(df, column):
     anomalies = values - mean
     return anomalies
 
+
+def reservoir_simulation(inflows, capacity, initial_storage, demand):
+    """this function simulates a reservoir over the years given
+    
+    PARAMETERS
+    ==========
+    inflows = a NumPy array of annual inflow volumes (MAF/yr)
+    capacity = maximum reservoir volume (MAF)
+    initial_storage = starting storage (MAF)
+    demand = constant annual water demand (MAF/yr)
+    
+    RETURNS
+    =======
+    storage = arrays with storage volume over the years
+    n_deficit_years = number of years the reservoir had a deficit
+    reliability = fraction of years without a deficit
+    """
+    
+    N = (len(inflows))
+    storage = np.zeros(N)
+    
+    S_prev = initial_storage
+    n_deficit_years = 0
+    for t in range(N):
+        S = S_prev + inflows[t] - demand
+        
+        if S > capacity:
+            spill = S - capacity
+            S = capacity
+        elif S < 0:
+            n_deficit_years += 1 
+            S = 0
+        
+        storage[t] = S
+        S_prev = S
+    reliability= (N-n_deficit_years)/N
+    return{
+        "storage": storage,
+        "n_deficit_years": n_deficit_years,
+        "reliavility": reliability
+    }
+
+        
+            
+    
+    
+
     
 
